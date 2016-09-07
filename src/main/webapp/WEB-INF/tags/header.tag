@@ -9,7 +9,7 @@
 			<nav class="navbar navbar-default navbar-fixed-top">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand active" href="#">TOYS FOR BOYS</a>
+						<div class="navbar-brand active" href="#">TOYS FOR BOYS</div>
 					</div>
 					<ul class="nav navbar-nav">
 						<li><a href="index.htm">Unshipped Orders</a></li>
