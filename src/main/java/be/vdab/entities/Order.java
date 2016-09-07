@@ -1,6 +1,7 @@
 package be.vdab.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
@@ -103,6 +104,14 @@ public class Order implements Serializable {
 
 	public Set<Orderdetail> getOrderdetails() {
 		return Collections.unmodifiableSet(orderdetails);
+	}
+	
+	public BigDecimal getTotalValue() {
+		BigDecimal totalValue = BigDecimal.ZERO;
+		for (Orderdetail orderdetail : this.getOrderdetails()) {
+			totalValue = totalValue.add(orderdetail.getTotalValue());
+		}
+		return totalValue;
 	}
 
 }

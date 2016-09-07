@@ -6,7 +6,7 @@
 <html lang='nl'>
 <v:header />
 <c:if test="${not empty order}">
-	<h2>Order ${order.id}</h2>
+	<h1>Order ${order.id}</h1>
 	<dl>
 		<dt>Ordered:</dt>
 		<dd>${order.orderDate}</dd>
@@ -40,21 +40,26 @@
 						<td class="col-md-2">${orderdetail.priceEach}</td>
 						<td class="col-md-2">${orderdetail.quantityOrdered}</td>
 						<td class="col-md-2">${orderdetail.totalValue}</td>
-						<td class="text-center col-md-1">
-						<c:choose>
-						<c:when test="${orderdetail.quantityOrdered <= orderdetail.product.quantityInStock}">
-						<span class="glyphicon glyphicon-ok"></span>
-						</c:when>
-						<c:otherwise>
-						<span class="glyphicon glyphicon-remove"></span>
-						</c:otherwise>
-						</c:choose></td>
+						<td class="text-center col-md-1"><c:choose>
+								<c:when
+									test="${orderdetail.quantityOrdered <= orderdetail.product.quantityInStock}">
+									<span class="glyphicon glyphicon-ok"></span>
+								</c:when>
+								<c:otherwise>
+									<span class="glyphicon glyphicon-remove"></span>
+								</c:otherwise>
+							</c:choose></td>
 					</tr>
 				</c:forEach>
+				<tr class="info">
+					<th>Total Amount:</th>
+					<th class="col-md-2"></th>
+					<th class="col-md-2"></th>
+					<th class="col-md-2 ">${order.totalValue}</th>
+					<th class="text-center col-md-1"></th>
+				</tr>
 			</table>
 		</dd>
 	</dl>
-	<a class="btn btn-info btn-block" href="index.htm" role="button">Unshipped
-		Orders</a>
 </c:if>
 <v:footer />
