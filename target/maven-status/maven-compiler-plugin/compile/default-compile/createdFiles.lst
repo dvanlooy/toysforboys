@@ -1,0 +1,15 @@
+be\vdab\valueobjects\Productline.class
+be\vdab\entities\Order.class
+be\vdab\valueobjects\Orderdetail.class
+be\vdab\enums\Status.class
+be\vdab\entities\Product.class
+be\vdab\services\OrderService.class
+be\vdab\services\AbstractService.class
+be\vdab\entities\Customer.class
+be\vdab\repositories\AbstractRepository.class
+be\vdab\servlets\UnshippedOrdersServlet.class
+be\vdab\valueobjects\Adres.class
+be\vdab\repositories\OrderRepository.class
+be\vdab\filters\JPAFilter.class
+be\vdab\valueobjects\Country.class
+be\vdab\servlets\OrderDetailServlet.class

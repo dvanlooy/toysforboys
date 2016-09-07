@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="toysforboys">
+	<non-jta-data-source>java:/comp/env/jdbc/toysforboys</non-jta-data-source>
+		<class>be.vdab.entities.Order</class>
+		<class>be.vdab.entities.Customer</class>
+		<class>be.vdab.entities.Product</class>
+		<class>be.vdab.valueobjects.Orderdetail</class>
+		<class>be.vdab.valueobjects.Productline</class>
+		<class>be.vdab.valueobjects.Adres</class>
+		<class>be.vdab.valueobjects.Country</class>
+		<properties>
+			<property name='hibernate.show_sql' value='true' />
+			<property name='hibernate.format_sql' value='true' />
+			<property name='hibernate.use_sql_comments' value='true' />
+		</properties>
+	</persistence-unit>
+</persistence>
