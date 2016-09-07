@@ -43,10 +43,10 @@
 						<td class="text-center col-md-1">
 						<c:choose>
 						<c:when test="${orderdetail.quantityOrdered <= orderdetail.product.quantityInStock}">
-						&check;
+						<span class="glyphicon glyphicon-ok"></span>
 						</c:when>
 						<c:otherwise>
-						&cross;
+						<span class="glyphicon glyphicon-remove"></span>
 						</c:otherwise>
 						</c:choose></td>
 					</tr>
