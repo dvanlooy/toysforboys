@@ -6,3 +6,13 @@
 <body>
 	<section class='jumbotron'>
 		<div class="container">
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="container-fluid">
+					<ul class="nav navbar-nav">
+						<li><a href="index.htm" class="btn btn-default navbar-btn">Unshipped Orders</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li></li>
+					</ul>
+				</div>
+			</nav>

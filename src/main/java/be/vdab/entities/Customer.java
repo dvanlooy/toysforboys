@@ -25,6 +25,24 @@ public class Customer implements Serializable {
 	@Embedded
 	private Adres adres;
 
+	
+	
+	//CONSTRUCTORS
+	protected Customer() {
+
+	}
+	
+	public Customer(long id, String name, Adres adres) {
+		this.id = id;
+		this.name = name;
+		this.adres = adres;
+	}
+	
+
+	
+	
+	
+	//GETTERS & SETTERS
 	public long getId() {
 		return id;
 	}
@@ -36,17 +54,16 @@ public class Customer implements Serializable {
 	public Adres getAdres() {
 		return adres;
 	}
-
-	public Customer(long id, String name, Adres adres) {
-		this.id = id;
+		
+	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setAdres(Adres adres) {
 		this.adres = adres;
 	}
-	
-	protected Customer() {
 
-	}
-
+	//OVERRIDES
 	@Override
 	public int hashCode() {
 		final int prime = 31;

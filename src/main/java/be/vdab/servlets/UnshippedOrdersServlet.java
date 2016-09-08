@@ -1,6 +1,7 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,40 @@ public class UnshippedOrdersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		getUnshippedOrders(request, response);
+
+		// GET ON WITH IT
+		request.getRequestDispatcher(VIEW).forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		getUnshippedOrders(request, response);
+		
+		if (request.getParameterValues("ship") != null) {
+			List<Order> noStockUnshippedOrders = new ArrayList<>();
+			for (String orderId : request.getParameterValues("ship")) {
+				System.out.println(orderId);
+				try {
+					Long id = Long.parseLong(orderId);
+					Order order = orderService.findUnshippedOrder(id);
+					if (!orderService.setAsShipped(id)) {
+						noStockUnshippedOrders.add(order);
+					}
+				} catch (NumberFormatException e) {
+					// IF NO LONG DO NOTHING
+				}
+			}
+			if (!noStockUnshippedOrders.isEmpty()) {
+				request.setAttribute("noStockUnshippedOrders", noStockUnshippedOrders);
+			}
+		}
+		// GET ON WITH IT
+		request.getRequestDispatcher(VIEW).forward(request, response);
+	}
+
+	private void getUnshippedOrders(HttpServletRequest request, HttpServletResponse response) {
 		int vanafRij = request.getParameter("vanafRij") == null ? 0
 				: Integer.parseInt(request.getParameter("vanafRij"));
 		request.setAttribute("vanafRij", vanafRij);
@@ -32,9 +67,8 @@ public class UnshippedOrdersServlet extends HttpServlet {
 		} else {
 			unshippedorders.remove(AANTAL_RIJEN);
 		}
+		// SET UNSHIPPEDORDERS IN ATTRIBUTES
 		request.setAttribute("unshippedorders", unshippedorders);
-
-		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 }

@@ -2,6 +2,7 @@ be\vdab\valueobjects\Productline.class
 be\vdab\entities\Order.class
 be\vdab\valueobjects\Orderdetail.class
 be\vdab\enums\Status.class
+be\vdab\exceptions\UnshippedException.class
 be\vdab\entities\Product.class
 be\vdab\services\OrderService.class
 be\vdab\services\AbstractService.class

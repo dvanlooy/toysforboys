@@ -1,6 +1,7 @@
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\entities\Order.java
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\repositories\AbstractRepository.java
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\entities\Customer.java
+C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\exceptions\UnshippedException.java
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\valueobjects\Orderdetail.java
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\enums\Status.java
 C:\Users\dimitri.vanlooy\workspace\toysforboys\src\main\java\be\vdab\services\AbstractService.java

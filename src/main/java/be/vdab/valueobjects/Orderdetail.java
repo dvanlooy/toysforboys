@@ -49,6 +49,7 @@ public class Orderdetail implements Serializable {
 		return priceEach.multiply(BigDecimal.valueOf(quantityOrdered));
 	}
 
+	//OVERRIDES
 	@Override
 	public int hashCode() {
 		final int prime = 31;

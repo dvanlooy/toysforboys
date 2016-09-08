@@ -1,3 +1,4 @@
+//staat bij valueobjects omdat deze hoort bij Adres, maar een id heeft in de database (=entity)
 package be.vdab.valueobjects;
 
 import java.io.Serializable;

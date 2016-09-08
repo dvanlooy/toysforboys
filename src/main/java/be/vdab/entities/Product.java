@@ -1,43 +1,98 @@
 package be.vdab.entities;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.hibernate.engine.profile.Fetch;
+
+import be.vdab.exceptions.UnshippedException;
 import be.vdab.valueobjects.Productline;
 
 @Entity
 @Table(name = "products")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	private String name;
 	private String scale;
 	private String description;
 	private long quantityInStock;
 	private long quantityInOrder;
 	private BigDecimal buyPrice;
-	
-	@ManyToOne(optional = false)
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
 
-	//CONSTRUCTORS
+	// LOGGER MEMBERS
+	@Transient
+	private final Logger logger = Logger.getLogger(Product.class.getName());
+	@Transient
+	private static FileHandler fh = null;
+	@Transient
+	private final static String LOGFILE_LOCATION = "C:/logs/toysforboyslog.log";
+
+	// FUNCTIONAL METHODS
+
+//	/**
+//	 * creates a logfile
+//	 */
+//	private void createLogFile() {
+//		try {
+//			fh = new FileHandler(LOGFILE_LOCATION);
+//			logger.addHandler(fh);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+	/**
+	 * Reduces quantityInStock and quantityInOrder with long quantityOrdered
+	 * parameter
+	 * 
+	 * @param quantityOrdered
+	 * @throws UnshippedException
+	 */
+	public void ship(long quantityOrdered) throws UnshippedException {
+		if (quantityOrdered <= quantityInStock) {
+			if (quantityInOrder < quantityOrdered) {
+//				logger.warning("Anomaly in quantityInOrder column for " + getName());
+				setQuantityInStock(quantityInStock - quantityOrdered);				
+			}else{
+			setQuantityInOrder(quantityInOrder - quantityOrdered);
+			setQuantityInStock(quantityInStock - quantityOrdered);
+			}
+			// om te testen of logger werkt
+//			logger.info("Quantity in stock adjusted for " + getName());
+		} else {
+			throw new UnshippedException();
+		}
+	}
+
+	// CONSTRUCTORS
 	protected Product() {
+//		createLogFile();
 	}
 
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
 			BigDecimal buyPrice, Productline productline) {
+//		createLogFile();
 		this.name = name;
 		this.scale = scale;
 		this.description = description;
@@ -47,8 +102,7 @@ public class Product implements Serializable {
 		this.productline = productline;
 	}
 
-	
-	//GETTERS
+	// GETTERS
 	public long getProductID() {
 		return id;
 	}
@@ -80,6 +134,36 @@ public class Product implements Serializable {
 	public Productline getProductline() {
 		return productline;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setScale(String scale) {
+		this.scale = scale;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setQuantityInStock(long quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public void setQuantityInOrder(long quantityInOrder) {
+		this.quantityInOrder = quantityInOrder;
+	}
+
+	public void setBuyPrice(BigDecimal buyPrice) {
+		this.buyPrice = buyPrice;
+	}
+
+	public void setProductline(Productline productline) {
+		this.productline = productline;
+	}
+
+	// OVERRIDES
 
 	@Override
 	public int hashCode() {
@@ -127,8 +211,5 @@ public class Product implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
-	
 }

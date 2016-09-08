@@ -6,7 +6,9 @@
 <html lang='nl'>
 <v:header />
 <c:if test="${not empty order}">
-	<h1>Order ${order.id}</h1>
+	<div class="page-header">
+		<h1>Order ${order.id}</h1>
+	</div>
 	<dl>
 		<dt>Ordered:</dt>
 		<dd>${order.orderDate}</dd>

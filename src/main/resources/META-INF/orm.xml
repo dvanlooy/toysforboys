@@ -11,4 +11,11 @@ http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
 			order by o.id
 		</query>
 	</named-query>
+		<named-query name='Order.findUnshippedOrder'>
+		<query>
+			select o from Order o join fetch o.customer
+			where o.id like :id
+			order by o.id
+		</query>
+	</named-query>
 </entity-mappings>
