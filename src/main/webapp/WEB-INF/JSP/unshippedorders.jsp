@@ -1,47 +1,23 @@
-<%@ page contentType='text/html' pageEncoding='UTF-8' %>
+<%@ page contentType='text/html' pageEncoding='UTF-8'%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="v" uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <v:header />
-<c:if test="${not empty noStockUnshippedOrders}">
-<div class="page-header"></div>
-	<div class="panel panel-danger">
-		<div class="panel-heading">
-			<h2>Not enough stock!</h2>
-		</div>
-		<div class="panel-body">
-			<p>Shipping failed for following orders:</p>
-		</div>
-		<table class="table table-striped">
-			<tr>
-				<th class="col-md-1 text-center">ID</th>
-				<th class="col-md-1">Ordered</th>
-				<th class="col-md-1">Required</th>
-				<th class="col-md-2">Customer</th>
-				<th>Comments</th>
-				<th class="col-md-2">Status</th>
-			</tr>
+<c:if test="${not empty noStockUnshippedOrders }">
+	<div class="page-header">
+		<div class="alert alert-danger">
+			Shipping failed for following order(s):
 			<c:forEach items='${noStockUnshippedOrders}'
-				var='noStockUnshippedOrder'>
+				var='noStockUnshippedOrder' varStatus="status">
 				<c:url value='/orderdetail.htm' var='orderDetailURL'>
-					<c:param name='id' value="${noStockUnshippedOrder.id}" />
+					<c:param name='id' value="${noStockUnshippedOrder}" />
 				</c:url>
-				<tr>
-					<td class="col-md-1 text-center"><a class="btn btn-danger"
-						href="<c:out value='${orderDetailURL}'/>" role="button">${noStockUnshippedOrder.id}</a></td>
-					<td class="col-md-1">${noStockUnshippedOrder.orderDate}</td>
-					<td class="col-md-1">${noStockUnshippedOrder.requiredDate}</td>
-					<td class="col-md-2">${noStockUnshippedOrder.customer.name}</td>
-					<td>${noStockUnshippedOrder.comments}</td>
-					<td class="col-md-2"><img
-						src="images/${noStockUnshippedOrder.status}.png">&nbsp;
-						${fn:toUpperCase(fn:substring(noStockUnshippedOrder.status, 0, 1))}${fn:toLowerCase(fn:substring(noStockUnshippedOrder.status, 1, -1))}
-					</td>
-				</tr>
+				<a class="btn btn-danger" href="<c:out value='${orderDetailURL}'/>"
+					role="button">${noStockUnshippedOrder}</a>
 			</c:forEach>
-		</table>
+		</div>
 	</div>
 </c:if>
 <div class="page-header">

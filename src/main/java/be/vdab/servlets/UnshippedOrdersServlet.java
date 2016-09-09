@@ -23,7 +23,9 @@ public class UnshippedOrdersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		
 		getUnshippedOrders(request, response);
+		
 
 		// GET ON WITH IT
 		request.getRequestDispatcher(VIEW).forward(request, response);
@@ -31,29 +33,27 @@ public class UnshippedOrdersServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		getUnshippedOrders(request, response);
-		
+
 		if (request.getParameterValues("ship") != null) {
-			List<Order> noStockUnshippedOrders = new ArrayList<>();
+//			List<Order> noStockUnshippedOrders = new ArrayList<>();
+			List<Long> noStockUnshippedOrders = new ArrayList<>();
 			for (String orderId : request.getParameterValues("ship")) {
-				System.out.println(orderId);
 				try {
 					Long id = Long.parseLong(orderId);
-					Order order = orderService.findUnshippedOrder(id);
 					if (!orderService.setAsShipped(id)) {
-						noStockUnshippedOrders.add(order);
+//						noStockUnshippedOrders.add(orderService.read(id));
+						noStockUnshippedOrders.add(id);
 					}
 				} catch (NumberFormatException e) {
 					// IF NO LONG DO NOTHING
 				}
 			}
-			if (!noStockUnshippedOrders.isEmpty()) {
-				request.setAttribute("noStockUnshippedOrders", noStockUnshippedOrders);
-			}
+			request.setAttribute("noStockUnshippedOrders", noStockUnshippedOrders);
 		}
-		// GET ON WITH IT
-		request.getRequestDispatcher(VIEW).forward(request, response);
+		doGet(request, response);
+//		getUnshippedOrders(request, response);
+//		// GET ON WITH IT
+//		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 	private void getUnshippedOrders(HttpServletRequest request, HttpServletResponse response) {

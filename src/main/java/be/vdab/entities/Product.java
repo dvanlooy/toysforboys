@@ -40,13 +40,13 @@ public class Product implements Serializable {
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
 
-	// LOGGER MEMBERS
-	@Transient
-	private final Logger logger = Logger.getLogger(Product.class.getName());
-	@Transient
-	private static FileHandler fh = null;
-	@Transient
-	private final static String LOGFILE_LOCATION = "C:/logs/toysforboyslog.log";
+//	// LOGGER MEMBERS
+//	@Transient
+//	private final Logger logger = Logger.getLogger(Product.class.getName());
+//	@Transient
+//	private static FileHandler fh = null;
+//	@Transient
+//	private final static String LOGFILE_LOCATION = "C:/logs/toysforboyslog.log";
 
 	// FUNCTIONAL METHODS
 

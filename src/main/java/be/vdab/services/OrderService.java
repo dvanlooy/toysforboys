@@ -12,7 +12,7 @@ public class OrderService extends AbstractService {
 	public List<Order> findAllUnshippedOrders(int vanafRij, int aantalRijen) {
 		return orderRepository.findAllUnshippedOrders(vanafRij, aantalRijen);
 	}
-	
+
 	public Order findUnshippedOrder(long id) {
 		return orderRepository.findUnshippedOrder(id);
 	}
@@ -23,9 +23,9 @@ public class OrderService extends AbstractService {
 
 	public boolean setAsShipped(long id) {
 		beginTransaction();
-		Order order = orderRepository.readWithLock(id);
 		try {
-			order.ship();
+
+			orderRepository.readWithLock(id).ship();
 			commit();
 			return true;
 		} catch (UnshippedException ex) {
