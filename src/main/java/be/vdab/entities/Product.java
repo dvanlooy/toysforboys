@@ -67,7 +67,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
-			BigDecimal buyPrice, Productline productline) throws ToysException {
+			BigDecimal buyPrice, Productline productline) throws IllegalArgumentException, NullPointerException {
 
 		setName(name);
 		setScale(scale);
@@ -111,48 +111,28 @@ public class Product implements Serializable {
 		return productline;
 	}
 
-	public void setName(String name) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(name)) {
-			this.name = name;
-		} else {
-			throw new ToysException("Product name cannot be empty or null");
-		}
+	public void setName(String name) throws IllegalArgumentException {
+		this.name = Invoercontrole.noEmptyOrNullString(name, "product name cannot be empty or null");
 	}
 
-	public void setScale(String scale) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(scale)) {
-			this.scale = scale;
-		} else {
-			throw new ToysException("Scale cannot be empty or null");
-		}
+	public void setScale(String scale) throws IllegalArgumentException {
+		this.scale = Invoercontrole.noEmptyOrNullString(scale, "scale cannot be empty or null");
 	}
 
 	public void setDescription(String description) {
 		this.description = description; // geen invoercontrole: vrij veld
 	}
 
-	public void setQuantityInStock(long quantityInStock) throws ToysException {
-		if (Invoercontrole.isLongPositive(quantityInStock)) {
-			this.quantityInStock = quantityInStock;
-		} else {
-			throw new ToysException("Quantity In Stock cannot be negative");
-		}
+	public void setQuantityInStock(long quantityInStock) throws IllegalArgumentException {
+		this.quantityInStock = Invoercontrole.positiveLong(quantityInStock, "quantity In Stock cannot be negative");
 	}
 
-	public void setQuantityInOrder(long quantityInOrder) throws ToysException {
-		if (Invoercontrole.isLongPositive(quantityInOrder)) {
-			this.quantityInOrder = quantityInOrder;
-		} else {
-			throw new ToysException("Quantity In Order cannot be negative");
-		}
+	public void setQuantityInOrder(long quantityInOrder) throws IllegalArgumentException {
+		this.quantityInOrder = Invoercontrole.positiveLong(quantityInOrder, "quantity In Order cannot be negative");
 	}
 
-	public void setBuyPrice(BigDecimal buyPrice) throws ToysException {
-		if (Invoercontrole.isBigDecimalPositive(buyPrice)) {
-			this.buyPrice = buyPrice;
-		} else {
-			throw new ToysException("BuyPrice cannot be negative");
-		}
+	public void setBuyPrice(BigDecimal buyPrice) throws IllegalArgumentException {
+		this.buyPrice = Invoercontrole.positiveBigDecimal(buyPrice, "buyPrice cannot be negative");
 	}
 
 	public void setProductline(Productline productline) throws NullPointerException {

@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import be.vdab.exceptions.ToysException;
 import be.vdab.util.Invoercontrole;
 
 @Embeddable
@@ -29,7 +28,7 @@ public class Adres implements Serializable {
 	}
 
 	public Adres(String streetAndNumber, String city, String state, String postalCode, Country country)
-			throws ToysException {
+			throws IllegalArgumentException, NullPointerException {
 		setStreetAndNumber(streetAndNumber);
 		setCity(city);
 		setState(state);
@@ -58,39 +57,24 @@ public class Adres implements Serializable {
 		return country;
 	}
 
-	public void setStreetAndNumber(String streetAndNumber) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(streetAndNumber)) {
-			this.streetAndNumber = streetAndNumber;
-		} else {
-			throw new ToysException("streetAndNumber cannot be empty or null");
-		}
+	public void setStreetAndNumber(String streetAndNumber) throws IllegalArgumentException {
+		this.streetAndNumber = Invoercontrole.noEmptyOrNullString(streetAndNumber,
+				"streetAndNumber cannot be empty or null");
 	}
 
-	public void setCity(String city) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(city)) {
-			this.city = city;
-		} else {
-			throw new ToysException("city cannot be empty or null");
-		}
+	public void setCity(String city) throws IllegalArgumentException {
+		this.city = Invoercontrole.noEmptyOrNullString(city, "city cannot be empty or null");
 	}
 
-	public void setState(String state) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(state)) {
-			this.state = state;
-		} else {
-			throw new ToysException("state cannot be empty or null");
-		}
+	public void setState(String state) throws IllegalArgumentException {
+		this.state = Invoercontrole.noEmptyOrNullString(state, "state cannot be empty or null");
 	}
 
-	public void setPostalCode(String postalCode) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(postalCode)) {
-			this.postalCode = postalCode;
-		} else {
-			throw new ToysException("postalCode cannot be empty or null");
-		}
+	public void setPostalCode(String postalCode) throws IllegalArgumentException {
+		this.postalCode = Invoercontrole.noEmptyOrNullString(postalCode, "postalCode cannot be empty or null");
 	}
 
-	public void setCountry(Country country) throws ToysException {
+	public void setCountry(Country country) throws NullPointerException {
 		this.country = Objects.requireNonNull(country, "country cannot be null");
 	}
 

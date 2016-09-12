@@ -9,32 +9,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import be.vdab.exceptions.ToysException;
 import be.vdab.util.Invoercontrole;
 
 @Entity
 @Table(name = "countries")
-public class Country  implements Serializable {
+public class Country implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private String name;
 
-	//CONSTRUCTORS
+	// CONSTRUCTORS
 	protected Country() {
 	}
-		
-	public Country(String name) {
-		this.name = name;
+
+	public Country(String name) throws IllegalArgumentException {
+		setName(name);
 	}
 
+	// GETTERS & SETTERS
 
-
-	//GETTERS & SETTERS
-	
 	public long getId() {
 		return id;
 	}
@@ -42,17 +39,12 @@ public class Country  implements Serializable {
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name) throws ToysException{
-		if (Invoercontrole.isStringNotNullOrEmpty(name)) {
-			this.name = name;
-		} else {
-			throw new ToysException("Country name cannot be empty or null");
-		}
+
+	public void setName(String name) throws IllegalArgumentException {
+		this.name = Invoercontrole.noEmptyOrNullString(name, "country name cannot be empty or null");
 	}
-	
-	
-	//OVERRIDES
+
+	// OVERRIDES
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,7 +72,5 @@ public class Country  implements Serializable {
 	public String toString() {
 		return "Country [id=" + id + ", name=" + name + "]";
 	}
-	
-	
 
 }

@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 import be.vdab.enums.Status;
 import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
+import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Orderdetail;
 
 @Entity
@@ -102,7 +103,7 @@ public class Order implements Serializable {
 	}
 
 	public Order(Date orderDate, Date requiredDate, Date shippedDate, String comments, Customer customer, Status status)
-			throws ToysException {
+			throws NullPointerException {
 		setOrderDate(orderDate);
 		setRequiredDate(requiredDate);
 		setShippedDate(shippedDate);
@@ -160,12 +161,8 @@ public class Order implements Serializable {
 		this.customer = Objects.requireNonNull(customer, "customer cannot be null");
 	}
 
-	public void setStatus(Status status) throws ToysException {
-		if (status != null) {
-			this.status = status;
-		} else {
-			throw new ToysException("status cannot be null");
-		}
+	public void setStatus(Status status) throws NullPointerException {
+		this.status = Invoercontrole.validStatus(status);
 	}
 
 	public void setOrderdetails(Set<Orderdetail> orderdetails) throws NullPointerException {

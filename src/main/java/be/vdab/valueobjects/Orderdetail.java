@@ -27,7 +27,7 @@ public class Orderdetail implements Serializable {
 	protected Orderdetail() {
 	}
 
-	public Orderdetail(long quantityOrdered, BigDecimal priceEach, Product product) throws ToysException {
+	public Orderdetail(long quantityOrdered, BigDecimal priceEach, Product product) throws IllegalArgumentException, NullPointerException {
 		setQuantityOrdered(quantityOrdered);
 		setPriceEach(priceEach);
 		setProduct(product);
@@ -51,20 +51,13 @@ public class Orderdetail implements Serializable {
 		return priceEach.multiply(BigDecimal.valueOf(quantityOrdered));
 	}
 
-	public void setQuantityOrdered(long quantityOrdered) throws ToysException {
-		if (Invoercontrole.isLongPositive(quantityOrdered)) {
-			this.quantityOrdered = quantityOrdered;
-		} else {
-			throw new ToysException("quantityOrdered cannot be negative");
+	public void setQuantityOrdered(long quantityOrdered) throws IllegalArgumentException {
+		this.quantityOrdered = Invoercontrole.positiveLong(quantityOrdered, "quantityOrdered cannot be negative");
 		}
-	}
+	
 
-	public void setPriceEach(BigDecimal priceEach) throws ToysException {
-		if (Invoercontrole.isBigDecimalPositive(priceEach)) {
-			this.priceEach = priceEach;
-		} else {
-			throw new ToysException("priceEach cannot be negative");
-		}
+	public void setPriceEach(BigDecimal priceEach) throws IllegalArgumentException {
+		this.priceEach = Invoercontrole.positiveBigDecimal(priceEach, "priceEach cannot be negative");
 	}
 
 	public void setProduct(Product product) throws NullPointerException {

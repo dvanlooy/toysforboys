@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import be.vdab.exceptions.ToysException;
 import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Adres;
 
@@ -33,7 +32,7 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(String name, Adres adres) throws ToysException {
+	public Customer(String name, Adres adres) throws IllegalArgumentException, NullPointerException {
 		setName(name);
 		setAdres(adres);
 	}
@@ -51,12 +50,8 @@ public class Customer implements Serializable {
 		return adres;
 	}
 
-	public void setName(String name) throws ToysException {
-		if (Invoercontrole.isStringNotNullOrEmpty(name)) {
-			this.name = name;
-		} else {
-			throw new ToysException("Customer name cannot be empty or null");
-		}
+	public void setName(String name) throws IllegalArgumentException {
+		this.name = Invoercontrole.noEmptyOrNullString(name, "name cannot be empty or null");
 	}
 
 	public void setAdres(Adres adres) throws NullPointerException {
