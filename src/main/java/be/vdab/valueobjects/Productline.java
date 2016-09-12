@@ -33,7 +33,7 @@ public class Productline implements Serializable {
 		this.description = description;
 	}
 	
-	//GETTERS
+	//GETTERS & SETTERS
 	public long getId() {
 		return id;
 	}

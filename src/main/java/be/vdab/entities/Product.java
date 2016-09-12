@@ -2,6 +2,7 @@ package be.vdab.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,31 +36,28 @@ public class Product implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
-		 
+
 	// FUNCTIONAL METHODS
-
-
 
 	/**
 	 * Reduces quantityInStock and quantityInOrder with long quantityOrdered
 	 * parameter
 	 * 
 	 * @param quantityOrdered
-	 * @throws UnshippedException
+	 * @throws UnshippedException,
+	 *             ToysException
 	 */
 	public void ship(long quantityOrdered) throws UnshippedException, ToysException {
-		
+
 		if (quantityOrdered <= quantityInStock) {
-			if (quantityInOrder < quantityOrdered) {
-				setQuantityInStock(quantityInStock - quantityOrdered);
-			} else {
+			setQuantityInStock(quantityInStock - quantityOrdered);
+			if (quantityOrdered <= quantityInOrder) {
 				setQuantityInOrder(quantityInOrder - quantityOrdered);
-				setQuantityInStock(quantityInStock - quantityOrdered);
-
+			} else {
+				// Corrupted data in database, do something...
 			}
-
 		} else {
-			throw new UnshippedException("Shipping failed for " + this.name + "(" + this.id + ")");
+			throw new UnshippedException("Shipping failed for " + this.toString());
 		}
 	}
 
@@ -157,12 +155,8 @@ public class Product implements Serializable {
 		}
 	}
 
-	public void setProductline(Productline productline) throws ToysException {
-		if (productline != null) {
-			this.productline = productline;
-		} else {
-			throw new ToysException("productline cannot be null");
-		}
+	public void setProductline(Productline productline) throws NullPointerException {
+		this.productline = Objects.requireNonNull(productline, "productline cannot be null");
 	}
 
 	// OVERRIDES

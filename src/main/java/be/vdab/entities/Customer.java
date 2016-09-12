@@ -1,6 +1,7 @@
 package be.vdab.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(String name, Adres adres) throws ToysException{
+	public Customer(String name, Adres adres) throws ToysException {
 		setName(name);
 		setAdres(adres);
 	}
@@ -50,20 +51,16 @@ public class Customer implements Serializable {
 		return adres;
 	}
 
-	public void setName(String name) throws ToysException{
+	public void setName(String name) throws ToysException {
 		if (Invoercontrole.isStringNotNullOrEmpty(name)) {
 			this.name = name;
 		} else {
 			throw new ToysException("Customer name cannot be empty or null");
 		}
 	}
-	
-	public void setAdres(Adres adres) throws ToysException {
-		if (adres != null) {
-			this.adres = adres;
-		} else {
-			throw new ToysException("adres cannot be null");
-		}
+
+	public void setAdres(Adres adres) throws NullPointerException {
+		this.adres = Objects.requireNonNull(adres, "adres cannot be null");
 	}
 
 	// OVERRIDES
@@ -101,5 +98,4 @@ public class Customer implements Serializable {
 		return "Customer [id=" + id + ", name=" + name + ", adres=" + adres + "]";
 	}
 
-	
 }

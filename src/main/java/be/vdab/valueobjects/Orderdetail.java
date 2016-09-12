@@ -2,6 +2,7 @@ package be.vdab.valueobjects;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -14,26 +15,25 @@ import be.vdab.util.Invoercontrole;
 @Embeddable
 public class Orderdetail implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private long quantityOrdered;
 	private BigDecimal priceEach;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "productId")
 	private Product product;
 
-	
-	//CONSTRUCTORS
+	// CONSTRUCTORS
 	protected Orderdetail() {
 	}
 
-	public Orderdetail(long quantityOrdered, BigDecimal priceEach, Product product) {
-		this.quantityOrdered = quantityOrdered;
-		this.priceEach = priceEach;
-		this.product = product;
+	public Orderdetail(long quantityOrdered, BigDecimal priceEach, Product product) throws ToysException {
+		setQuantityOrdered(quantityOrdered);
+		setPriceEach(priceEach);
+		setProduct(product);
 	}
-	
-	//GETTERS & SETTERS
+
+	// GETTERS & SETTERS
 
 	public long getQuantityOrdered() {
 		return quantityOrdered;
@@ -46,11 +46,11 @@ public class Orderdetail implements Serializable {
 	public Product getProduct() {
 		return product;
 	}
-	
+
 	public BigDecimal getTotalValue() {
 		return priceEach.multiply(BigDecimal.valueOf(quantityOrdered));
 	}
-	
+
 	public void setQuantityOrdered(long quantityOrdered) throws ToysException {
 		if (Invoercontrole.isLongPositive(quantityOrdered)) {
 			this.quantityOrdered = quantityOrdered;
@@ -67,15 +67,11 @@ public class Orderdetail implements Serializable {
 		}
 	}
 
-	public void setProduct(Product product) throws ToysException {
-		if (product instanceof Product) {
-			this.product = product;
-		} else {
-			throw new ToysException("No Product object found in parameter");
-		}
+	public void setProduct(Product product) throws NullPointerException {
+		this.product = Objects.requireNonNull(product, "product cannot be null");
 	}
 
-	//OVERRIDES
+	// OVERRIDES
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,8 +109,5 @@ public class Orderdetail implements Serializable {
 		return "Orderdetail [quantityOrdered=" + quantityOrdered + ", priceEach=" + priceEach + ", product=" + product
 				+ "]";
 	}
-	
-	
-	
-	
+
 }

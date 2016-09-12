@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -100,8 +101,8 @@ public class Order implements Serializable {
 
 	}
 
-	public Order(Date orderDate, Date requiredDate, Date shippedDate, String comments, Customer customer,
-			Status status)  throws ToysException {
+	public Order(Date orderDate, Date requiredDate, Date shippedDate, String comments, Customer customer, Status status)
+			throws ToysException {
 		setOrderDate(orderDate);
 		setRequiredDate(requiredDate);
 		setShippedDate(shippedDate);
@@ -114,65 +115,61 @@ public class Order implements Serializable {
 	public long getId() {
 		return id;
 	}
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
+
 	public Date getRequiredDate() {
 		return requiredDate;
 	}
+
 	public Date getShippedDate() {
 		return shippedDate;
 	}
+
 	public String getComments() {
 		return comments;
 	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
+
 	public Status getStatus() {
 		return status;
 	}
 
-	public void setOrderDate(Date orderDate) throws ToysException {
-		if (orderDate != null) {
-			this.orderDate = orderDate;
-		} else {
-			throw new ToysException("orderDate cannot be null");
-		}
+	public void setOrderDate(Date orderDate) throws NullPointerException {
+		this.orderDate = Objects.requireNonNull(orderDate, "orderDate cannot be null");
 	}
-	public void setRequiredDate(Date requiredDate) throws ToysException {
-		if (requiredDate != null) {
-			this.requiredDate = requiredDate;
-		} else {
-			throw new ToysException("requiredDate cannot be null");
-		}
+
+	public void setRequiredDate(Date requiredDate) throws NullPointerException {
+		this.requiredDate = Objects.requireNonNull(requiredDate, "requiredDate cannot be null");
 	}
-	public void setShippedDate(Date shippedDate) throws ToysException {
-		if (shippedDate != null) {
-			this.shippedDate = shippedDate;
-		} else {
-			throw new ToysException("shippedDate cannot be null");
-		}
+
+	public void setShippedDate(Date shippedDate) throws NullPointerException {
+		this.shippedDate = Objects.requireNonNull(shippedDate, "shippedDate cannot be null");
 	}
+
 	public void setComments(String comments) {
 		this.comments = comments; // geen invoercontrole: vrij veld
 	}
-	public void setCustomer(Customer customer) throws ToysException {
-		if (customer != null) {
-			this.customer = customer;
-		} else {
-			throw new ToysException("customer cannot be null");
-		}
+
+	public void setCustomer(Customer customer) throws NullPointerException {
+		this.customer = Objects.requireNonNull(customer, "customer cannot be null");
 	}
-	public void setStatus(Status status) throws ToysException {		
+
+	public void setStatus(Status status) throws ToysException {
 		if (status != null) {
 			this.status = status;
 		} else {
 			throw new ToysException("status cannot be null");
 		}
 	}
-	public void setOrderdetails(Set<Orderdetail> orderdetails) {
-		this.orderdetails = orderdetails;
+
+	public void setOrderdetails(Set<Orderdetail> orderdetails) throws NullPointerException {
+		this.orderdetails = Objects.requireNonNull(orderdetails, "orderdetails cannot be null");
 	}
 
 	// OVERRIDES
@@ -238,7 +235,5 @@ public class Order implements Serializable {
 				+ shippedDate + ", comments=" + comments + ", customer=" + customer + ", status=" + status
 				+ ", orderdetails=" + orderdetails + "]";
 	}
-	
-	
 
 }

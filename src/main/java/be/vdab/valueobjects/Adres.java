@@ -1,6 +1,7 @@
 package be.vdab.valueobjects;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -17,29 +18,26 @@ public class Adres implements Serializable {
 	private String city;
 	private String state;
 	private String postalCode;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "countryId")
 	private Country country;
 
-	
-	//CONSTRUCTORS
+	// CONSTRUCTORS
 	protected Adres() {
-		
+
 	}
 
-	public Adres(String streetAndNumber, String city, String state, String postalCode, Country country) throws ToysException{
+	public Adres(String streetAndNumber, String city, String state, String postalCode, Country country)
+			throws ToysException {
 		setStreetAndNumber(streetAndNumber);
 		setCity(city);
 		setState(state);
 		setPostalCode(postalCode);
 		setCountry(country);
 	}
-	
-	
-	
-	
-	//GETTERS & SETTERS
+
+	// GETTERS & SETTERS
 	public String getStreetAndNumber() {
 		return streetAndNumber;
 	}
@@ -59,8 +57,8 @@ public class Adres implements Serializable {
 	public Country getCountry() {
 		return country;
 	}
-	
-	public void setStreetAndNumber(String streetAndNumber) throws ToysException{
+
+	public void setStreetAndNumber(String streetAndNumber) throws ToysException {
 		if (Invoercontrole.isStringNotNullOrEmpty(streetAndNumber)) {
 			this.streetAndNumber = streetAndNumber;
 		} else {
@@ -68,7 +66,7 @@ public class Adres implements Serializable {
 		}
 	}
 
-	public void setCity(String city) throws ToysException{
+	public void setCity(String city) throws ToysException {
 		if (Invoercontrole.isStringNotNullOrEmpty(city)) {
 			this.city = city;
 		} else {
@@ -76,7 +74,7 @@ public class Adres implements Serializable {
 		}
 	}
 
-	public void setState(String state) throws ToysException{
+	public void setState(String state) throws ToysException {
 		if (Invoercontrole.isStringNotNullOrEmpty(state)) {
 			this.state = state;
 		} else {
@@ -84,7 +82,7 @@ public class Adres implements Serializable {
 		}
 	}
 
-	public void setPostalCode(String postalCode) throws ToysException{
+	public void setPostalCode(String postalCode) throws ToysException {
 		if (Invoercontrole.isStringNotNullOrEmpty(postalCode)) {
 			this.postalCode = postalCode;
 		} else {
@@ -93,11 +91,7 @@ public class Adres implements Serializable {
 	}
 
 	public void setCountry(Country country) throws ToysException {
-		if (country != null) {
-			this.country = country;
-		} else {
-			throw new ToysException("country cannot be null");
-		}
+		this.country = Objects.requireNonNull(country, "country cannot be null");
 	}
 
 	@Override
@@ -152,8 +146,5 @@ public class Adres implements Serializable {
 		return "Adres [streetAndNumber=" + streetAndNumber + ", city=" + city + ", state=" + state + ", postalCode="
 				+ postalCode + ", country=" + country + "]";
 	}
-	
-	
-	
-	
+
 }
