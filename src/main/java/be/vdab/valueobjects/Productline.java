@@ -77,4 +77,10 @@ public class Productline implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Productline [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
+	
+
 }
