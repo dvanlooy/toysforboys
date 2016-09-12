@@ -23,7 +23,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import be.vdab.enums.Status;
-import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
 import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Orderdetail;
@@ -89,7 +88,7 @@ public class Order implements Serializable {
 	 * @throws UnshippedException,
 	 *             ToysException
 	 */
-	public void ship() throws UnshippedException, ToysException {
+	public void ship() throws UnshippedException, IllegalArgumentException {
 		for (Orderdetail orderdetail : this.getOrderdetails()) {
 			orderdetail.getProduct().ship(orderdetail.getQuantityOrdered());
 		}

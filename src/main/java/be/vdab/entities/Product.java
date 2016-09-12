@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
 import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Productline;
@@ -47,7 +46,7 @@ public class Product implements Serializable {
 	 * @throws UnshippedException,
 	 *             ToysException
 	 */
-	public void ship(long quantityOrdered) throws UnshippedException, ToysException {
+	public void ship(long quantityOrdered) throws UnshippedException, IllegalArgumentException {
 
 		if (quantityOrdered <= quantityInStock) {
 			setQuantityInStock(quantityInStock - quantityOrdered);
