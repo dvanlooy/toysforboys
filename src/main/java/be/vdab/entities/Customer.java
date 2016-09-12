@@ -32,10 +32,9 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(long id, String name, Adres adres) {
-		this.id = id;
-		this.name = name;
-		this.adres = adres;
+	public Customer(String name, Adres adres) throws ToysException{
+		setName(name);
+		setAdres(adres);
 	}
 
 	// GETTERS & SETTERS
@@ -58,9 +57,13 @@ public class Customer implements Serializable {
 			throw new ToysException("Customer name cannot be empty or null");
 		}
 	}
-
-	public void setAdres(Adres adres) {
-		this.adres = adres;
+	
+	public void setAdres(Adres adres) throws ToysException {
+		if (adres != null) {
+			this.adres = adres;
+		} else {
+			throw new ToysException("adres cannot be null");
+		}
 	}
 
 	// OVERRIDES
@@ -93,4 +96,10 @@ public class Customer implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", adres=" + adres + "]";
+	}
+
+	
 }

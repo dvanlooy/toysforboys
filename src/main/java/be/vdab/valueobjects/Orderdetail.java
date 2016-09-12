@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import be.vdab.entities.Product;
+import be.vdab.exceptions.ToysException;
+import be.vdab.util.Invoercontrole;
 
 @Embeddable
 public class Orderdetail implements Serializable {
@@ -31,7 +33,7 @@ public class Orderdetail implements Serializable {
 		this.product = product;
 	}
 	
-	//GETTERS
+	//GETTERS & SETTERS
 
 	public long getQuantityOrdered() {
 		return quantityOrdered;
@@ -47,6 +49,30 @@ public class Orderdetail implements Serializable {
 	
 	public BigDecimal getTotalValue() {
 		return priceEach.multiply(BigDecimal.valueOf(quantityOrdered));
+	}
+	
+	public void setQuantityOrdered(long quantityOrdered) throws ToysException {
+		if (Invoercontrole.isLongPositive(quantityOrdered)) {
+			this.quantityOrdered = quantityOrdered;
+		} else {
+			throw new ToysException("quantityOrdered cannot be negative");
+		}
+	}
+
+	public void setPriceEach(BigDecimal priceEach) throws ToysException {
+		if (Invoercontrole.isBigDecimalPositive(priceEach)) {
+			this.priceEach = priceEach;
+		} else {
+			throw new ToysException("priceEach cannot be negative");
+		}
+	}
+
+	public void setProduct(Product product) throws ToysException {
+		if (product instanceof Product) {
+			this.product = product;
+		} else {
+			throw new ToysException("No Product object found in parameter");
+		}
 	}
 
 	//OVERRIDES
@@ -80,6 +106,12 @@ public class Orderdetail implements Serializable {
 		if (quantityOrdered != other.quantityOrdered)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Orderdetail [quantityOrdered=" + quantityOrdered + ", priceEach=" + priceEach + ", product=" + product
+				+ "]";
 	}
 	
 	

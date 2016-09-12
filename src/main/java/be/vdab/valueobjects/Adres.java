@@ -7,6 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import be.vdab.exceptions.ToysException;
+import be.vdab.util.Invoercontrole;
+
 @Embeddable
 public class Adres implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +22,24 @@ public class Adres implements Serializable {
 	@JoinColumn(name = "countryId")
 	private Country country;
 
+	
+	//CONSTRUCTORS
+	protected Adres() {
+		
+	}
+
+	public Adres(String streetAndNumber, String city, String state, String postalCode, Country country) throws ToysException{
+		setStreetAndNumber(streetAndNumber);
+		setCity(city);
+		setState(state);
+		setPostalCode(postalCode);
+		setCountry(country);
+	}
+	
+	
+	
+	
+	//GETTERS & SETTERS
 	public String getStreetAndNumber() {
 		return streetAndNumber;
 	}
@@ -37,6 +58,46 @@ public class Adres implements Serializable {
 
 	public Country getCountry() {
 		return country;
+	}
+	
+	public void setStreetAndNumber(String streetAndNumber) throws ToysException{
+		if (Invoercontrole.isStringNotNullOrEmpty(streetAndNumber)) {
+			this.streetAndNumber = streetAndNumber;
+		} else {
+			throw new ToysException("streetAndNumber cannot be empty or null");
+		}
+	}
+
+	public void setCity(String city) throws ToysException{
+		if (Invoercontrole.isStringNotNullOrEmpty(city)) {
+			this.city = city;
+		} else {
+			throw new ToysException("city cannot be empty or null");
+		}
+	}
+
+	public void setState(String state) throws ToysException{
+		if (Invoercontrole.isStringNotNullOrEmpty(state)) {
+			this.state = state;
+		} else {
+			throw new ToysException("state cannot be empty or null");
+		}
+	}
+
+	public void setPostalCode(String postalCode) throws ToysException{
+		if (Invoercontrole.isStringNotNullOrEmpty(postalCode)) {
+			this.postalCode = postalCode;
+		} else {
+			throw new ToysException("postalCode cannot be empty or null");
+		}
+	}
+
+	public void setCountry(Country country) throws ToysException {
+		if (country != null) {
+			this.country = country;
+		} else {
+			throw new ToysException("country cannot be null");
+		}
 	}
 
 	@Override
@@ -85,6 +146,13 @@ public class Adres implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Adres [streetAndNumber=" + streetAndNumber + ", city=" + city + ", state=" + state + ", postalCode="
+				+ postalCode + ", country=" + country + "]";
+	}
+	
 	
 	
 	

@@ -1,10 +1,7 @@
 package be.vdab.entities;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.engine.profile.Fetch;
-
+import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
+import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Productline;
 
 @Entity
@@ -40,27 +36,28 @@ public class Product implements Serializable {
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
 
-//	// LOGGER MEMBERS
-//	@Transient
-//	private final Logger logger = Logger.getLogger(Product.class.getName());
-//	@Transient
-//	private static FileHandler fh = null;
-//	@Transient
-//	private final static String LOGFILE_LOCATION = "C:/logs/toysforboyslog.log";
+	// // LOGGER MEMBERS
+	// @Transient
+	// private final Logger logger = Logger.getLogger(Product.class.getName());
+	// @Transient
+	// private static FileHandler fh = null;
+	// @Transient
+	// private final static String LOGFILE_LOCATION =
+	// "C:/logs/toysforboyslog.log";
 
 	// FUNCTIONAL METHODS
 
-//	/**
-//	 * creates a logfile
-//	 */
-//	private void createLogFile() {
-//		try {
-//			fh = new FileHandler(LOGFILE_LOCATION);
-//			logger.addHandler(fh);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	// /**
+	// * creates a logfile
+	// */
+	// private void createLogFile() {
+	// try {
+	// fh = new FileHandler(LOGFILE_LOCATION);
+	// logger.addHandler(fh);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	/**
 	 * Reduces quantityInStock and quantityInOrder with long quantityOrdered
@@ -69,37 +66,38 @@ public class Product implements Serializable {
 	 * @param quantityOrdered
 	 * @throws UnshippedException
 	 */
-	public void ship(long quantityOrdered) throws UnshippedException {
+	public void ship(long quantityOrdered) throws UnshippedException, ToysException {
 		if (quantityOrdered <= quantityInStock) {
 			if (quantityInOrder < quantityOrdered) {
-//				logger.warning("Anomaly in quantityInOrder column for " + getName());
-				setQuantityInStock(quantityInStock - quantityOrdered);				
-			}else{
-			setQuantityInOrder(quantityInOrder - quantityOrdered);
-			setQuantityInStock(quantityInStock - quantityOrdered);
+				// logger.warning("Anomaly in quantityInOrder column for " +
+				// getName());
+				setQuantityInStock(quantityInStock - quantityOrdered);
+			} else {
+				setQuantityInOrder(quantityInOrder - quantityOrdered);
+				setQuantityInStock(quantityInStock - quantityOrdered);
 			}
 			// om te testen of logger werkt
-//			logger.info("Quantity in stock adjusted for " + getName());
+			// logger.info("Quantity in stock adjusted for " + getName());
 		} else {
-			throw new UnshippedException();
+			throw new UnshippedException("Shipping failed for " + this.name + "(" + this.id + ")");
 		}
 	}
 
 	// CONSTRUCTORS
 	protected Product() {
-//		createLogFile();
+		// createLogFile();
 	}
 
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
-			BigDecimal buyPrice, Productline productline) {
-//		createLogFile();
-		this.name = name;
-		this.scale = scale;
-		this.description = description;
-		this.quantityInStock = quantityInStock;
-		this.quantityInOrder = quantityInOrder;
-		this.buyPrice = buyPrice;
-		this.productline = productline;
+			BigDecimal buyPrice, Productline productline) throws ToysException {
+		// createLogFile();
+		setName(name);
+		setScale(scale);
+		setDescription(description);
+		setQuantityInStock(quantityInStock);
+		setQuantityInOrder(quantityInOrder);
+		setBuyPrice(buyPrice);
+		setProductline(productline);
 	}
 
 	// GETTERS
@@ -135,32 +133,56 @@ public class Product implements Serializable {
 		return productline;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws ToysException {
+		if (Invoercontrole.isStringNotNullOrEmpty(name)) {
+			this.name = name;
+		} else {
+			throw new ToysException("Product name cannot be empty or null");
+		}
 	}
 
-	public void setScale(String scale) {
-		this.scale = scale;
+	public void setScale(String scale) throws ToysException {
+		if (Invoercontrole.isStringNotNullOrEmpty(scale)) {
+			this.scale = scale;
+		} else {
+			throw new ToysException("Scale cannot be empty or null");
+		}
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = description; // geen invoercontrole: vrij veld
 	}
 
-	public void setQuantityInStock(long quantityInStock) {
-		this.quantityInStock = quantityInStock;
+	public void setQuantityInStock(long quantityInStock) throws ToysException {
+		if (Invoercontrole.isLongPositive(quantityInStock)) {
+			this.quantityInStock = quantityInStock;
+		} else {
+			throw new ToysException("Quantity In Stock cannot be negative");
+		}
 	}
 
-	public void setQuantityInOrder(long quantityInOrder) {
-		this.quantityInOrder = quantityInOrder;
+	public void setQuantityInOrder(long quantityInOrder) throws ToysException {
+		if (Invoercontrole.isLongPositive(quantityInOrder)) {
+			this.quantityInOrder = quantityInOrder;
+		} else {
+			throw new ToysException("Quantity In Order cannot be negative");
+		}
 	}
 
-	public void setBuyPrice(BigDecimal buyPrice) {
-		this.buyPrice = buyPrice;
+	public void setBuyPrice(BigDecimal buyPrice) throws ToysException {
+		if (Invoercontrole.isBigDecimalPositive(buyPrice)) {
+			this.buyPrice = buyPrice;
+		} else {
+			throw new ToysException("BuyPrice cannot be negative");
+		}
 	}
 
-	public void setProductline(Productline productline) {
-		this.productline = productline;
+	public void setProductline(Productline productline) throws ToysException {
+		if (productline != null) {
+			this.productline = productline;
+		} else {
+			throw new ToysException("productline cannot be null");
+		}
 	}
 
 	// OVERRIDES
@@ -210,6 +232,13 @@ public class Product implements Serializable {
 		} else if (!scale.equals(other.scale))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", scale=" + scale + ", description=" + description
+				+ ", quantityInStock=" + quantityInStock + ", quantityInOrder=" + quantityInOrder + ", buyPrice="
+				+ buyPrice + ", productline=" + productline + "]";
 	}
 
 }

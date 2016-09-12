@@ -19,13 +19,6 @@ public final class Invoercontrole {
 		return true;
 	}
 
-	public final static boolean isIntPositive(int param) {
-		if (param < 0) {
-			return false;
-		}
-		return true;
-	}
-
 	public final static boolean isBigDecimalPositive(BigDecimal param) {
 		Objects.requireNonNull(param, "parameter mag niet null zijn");
 		if (param.signum() == -1) {

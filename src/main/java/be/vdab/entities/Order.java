@@ -24,16 +24,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import be.vdab.enums.Status;
+import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
 import be.vdab.valueobjects.Orderdetail;
 
-
-
-
 @Entity
 @Table(name = "orders")
-@NamedEntityGraph(name = "Order.withCustomer", 
-attributeNodes = @NamedAttributeNode("customer"))
+@NamedEntityGraph(name = "Order.withCustomer", attributeNodes = @NamedAttributeNode("customer"))
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -90,19 +87,15 @@ public class Order implements Serializable {
 	/**
 	 * Sets status on shipped and ships products
 	 * 
-	 * @throws UnshippedException
+	 * @throws UnshippedException,
+	 *             ToysException
 	 */
-	public void ship() throws UnshippedException {
-		try {
-			for (Orderdetail orderdetail : this.getOrderdetails()) {
-				orderdetail.getProduct().ship(orderdetail.getQuantityOrdered());
-			}
-			setStatus(Status.SHIPPED);
-			shippedDate = new Date();
-		} catch (UnshippedException ex) {
-			throw new UnshippedException(ex);
+	public void ship() throws UnshippedException, ToysException {
+		for (Orderdetail orderdetail : this.getOrderdetails()) {
+			orderdetail.getProduct().ship(orderdetail.getQuantityOrdered());
 		}
-
+		setStatus(Status.SHIPPED);
+		shippedDate = new Date();
 	}
 
 	// CONSTRUCTORS
@@ -110,70 +103,77 @@ public class Order implements Serializable {
 
 	}
 
-	public Order(long id, Date orderDate, Date requiredDate, Date shippedDate, String comments, Customer customer,
-			Status status) {
-		this.id = id;
-		this.orderDate = orderDate;
-		this.requiredDate = requiredDate;
-		this.shippedDate = shippedDate;
-		this.comments = comments;
-		this.customer = customer;
-		this.status = status;
+	public Order(Date orderDate, Date requiredDate, Date shippedDate, String comments, Customer customer,
+			Status status)  throws ToysException {
+		setOrderDate(orderDate);
+		setRequiredDate(requiredDate);
+		setShippedDate(shippedDate);
+		setComments(comments);
+		setCustomer(customer);
+		setStatus(status);
 	}
 
 	// GETTERS & SETTERS
 	public long getId() {
 		return id;
 	}
-
 	public Date getOrderDate() {
 		return orderDate;
 	}
-
 	public Date getRequiredDate() {
 		return requiredDate;
 	}
-
 	public Date getShippedDate() {
 		return shippedDate;
 	}
-
 	public String getComments() {
 		return comments;
 	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
-
 	public Status getStatus() {
 		return status;
 	}
 
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
+	public void setOrderDate(Date orderDate) throws ToysException {
+		if (orderDate != null) {
+			this.orderDate = orderDate;
+		} else {
+			throw new ToysException("orderDate cannot be null");
+		}
 	}
-
-	public void setRequiredDate(Date requiredDate) {
-		this.requiredDate = requiredDate;
+	public void setRequiredDate(Date requiredDate) throws ToysException {
+		if (requiredDate != null) {
+			this.requiredDate = requiredDate;
+		} else {
+			throw new ToysException("requiredDate cannot be null");
+		}
 	}
-
-	public void setShippedDate(Date shippedDate) {
-		this.shippedDate = shippedDate;
+	public void setShippedDate(Date shippedDate) throws ToysException {
+		if (shippedDate != null) {
+			this.shippedDate = shippedDate;
+		} else {
+			throw new ToysException("shippedDate cannot be null");
+		}
 	}
-
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.comments = comments; // geen invoercontrole: vrij veld
 	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomer(Customer customer) throws ToysException {
+		if (customer != null) {
+			this.customer = customer;
+		} else {
+			throw new ToysException("customer cannot be null");
+		}
 	}
-
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setStatus(Status status) throws ToysException {		
+		if (status != null) {
+			this.status = status;
+		} else {
+			throw new ToysException("status cannot be null");
+		}
 	}
-
 	public void setOrderdetails(Set<Orderdetail> orderdetails) {
 		this.orderdetails = orderdetails;
 	}
@@ -234,5 +234,14 @@ public class Order implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", orderDate=" + orderDate + ", requiredDate=" + requiredDate + ", shippedDate="
+				+ shippedDate + ", comments=" + comments + ", customer=" + customer + ", status=" + status
+				+ ", orderdetails=" + orderdetails + "]";
+	}
+	
+	
 
 }

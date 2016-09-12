@@ -3,6 +3,7 @@ package be.vdab.services;
 import java.util.List;
 
 import be.vdab.entities.Order;
+import be.vdab.exceptions.ToysException;
 import be.vdab.exceptions.UnshippedException;
 import be.vdab.repositories.OrderRepository;
 
@@ -24,11 +25,10 @@ public class OrderService extends AbstractService {
 	public boolean setAsShipped(long id) {
 		beginTransaction();
 		try {
-
 			orderRepository.readWithLock(id).ship();
 			commit();
 			return true;
-		} catch (UnshippedException ex) {
+		} catch (UnshippedException | ToysException ex) {
 			rollback();
 			return false;
 		}
