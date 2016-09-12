@@ -24,7 +24,6 @@ import javax.persistence.TemporalType;
 
 import be.vdab.enums.Status;
 import be.vdab.exceptions.UnshippedException;
-import be.vdab.util.Invoercontrole;
 import be.vdab.valueobjects.Orderdetail;
 
 @Entity
@@ -161,7 +160,7 @@ public class Order implements Serializable {
 	}
 
 	public void setStatus(Status status) throws NullPointerException {
-		this.status = Invoercontrole.validStatus(status);
+		this.status = Objects.requireNonNull(status, "Status cannot be null");
 	}
 
 	public void setOrderdetails(Set<Orderdetail> orderdetails) throws NullPointerException {

@@ -3,8 +3,6 @@ package be.vdab.util;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import be.vdab.enums.Status;
-
 public final class Invoercontrole {
 
 	/**
@@ -22,7 +20,6 @@ public final class Invoercontrole {
 		return param;
 	}
 
-
 	/**
 	 * checks if given String is not empty or not null
 	 * 
@@ -37,7 +34,6 @@ public final class Invoercontrole {
 		}
 		return param;
 	}
-
 
 	/**
 	 * checks if given BigDecimal is not null or negative
@@ -54,18 +50,6 @@ public final class Invoercontrole {
 		if (param.signum() == -1) {
 			throw new IllegalArgumentException(error);
 		}
-		return param;
-	}
-
-	/**
-	 * checks if given Status is not null
-	 * 
-	 * @param param
-	 * @return Status
-	 * @throws NullPointerException
-	 */
-	public final static Status validStatus(Status param) throws NullPointerException {
-		Objects.requireNonNull(param, "parameter cannot be null");
 		return param;
 	}
 
