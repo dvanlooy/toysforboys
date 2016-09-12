@@ -13,7 +13,7 @@
 	<entity>
 		<entity-name>be.vdab.entities.Product</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>306</entity-height>
+		<entity-height>246</entity-height>
 		<entity-X-Coordinate>568</entity-X-Coordinate>
 		<entity-Y-Coordinate>337</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>

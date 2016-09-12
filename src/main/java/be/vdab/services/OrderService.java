@@ -14,10 +14,6 @@ public class OrderService extends AbstractService {
 		return orderRepository.findAllUnshippedOrders(vanafRij, aantalRijen);
 	}
 
-	public Order findUnshippedOrder(long id) {
-		return orderRepository.findUnshippedOrder(id);
-	}
-
 	public Order read(long id) {
 		return orderRepository.read(id);
 	}

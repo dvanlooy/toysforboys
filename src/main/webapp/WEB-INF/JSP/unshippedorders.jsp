@@ -12,10 +12,9 @@
 				<h2>Shipping success</h2>
 			</div>
 			<div class="panel-body">
-				<p>Shipping completed for order(s)
-				<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
+				<p>Shipping completed for ${fn:length(shippedOrdersIds) > 1 ? "orders " : "order"}<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
 					varStatus="status">
-				${shippedOrdersId}${status.last ? "." : ", "}
+					${shippedOrdersId}${status.last ? "." : ", "}
 			</c:forEach></p>
 			</div>
 		</div>

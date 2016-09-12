@@ -35,29 +35,10 @@ public class Product implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
-
-	// // LOGGER MEMBERS
-	// @Transient
-	// private final Logger logger = Logger.getLogger(Product.class.getName());
-	// @Transient
-	// private static FileHandler fh = null;
-	// @Transient
-	// private final static String LOGFILE_LOCATION =
-	// "C:/logs/toysforboyslog.log";
-
+		 
 	// FUNCTIONAL METHODS
 
-	// /**
-	// * creates a logfile
-	// */
-	// private void createLogFile() {
-	// try {
-	// fh = new FileHandler(LOGFILE_LOCATION);
-	// logger.addHandler(fh);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
+
 
 	/**
 	 * Reduces quantityInStock and quantityInOrder with long quantityOrdered
@@ -67,17 +48,16 @@ public class Product implements Serializable {
 	 * @throws UnshippedException
 	 */
 	public void ship(long quantityOrdered) throws UnshippedException, ToysException {
+		
 		if (quantityOrdered <= quantityInStock) {
 			if (quantityInOrder < quantityOrdered) {
-				// logger.warning("Anomaly in quantityInOrder column for " +
-				// getName());
 				setQuantityInStock(quantityInStock - quantityOrdered);
 			} else {
 				setQuantityInOrder(quantityInOrder - quantityOrdered);
 				setQuantityInStock(quantityInStock - quantityOrdered);
+
 			}
-			// om te testen of logger werkt
-			// logger.info("Quantity in stock adjusted for " + getName());
+
 		} else {
 			throw new UnshippedException("Shipping failed for " + this.name + "(" + this.id + ")");
 		}
@@ -85,12 +65,12 @@ public class Product implements Serializable {
 
 	// CONSTRUCTORS
 	protected Product() {
-		// createLogFile();
+
 	}
 
 	public Product(String name, String scale, String description, long quantityInStock, long quantityInOrder,
 			BigDecimal buyPrice, Productline productline) throws ToysException {
-		// createLogFile();
+
 		setName(name);
 		setScale(scale);
 		setDescription(description);
