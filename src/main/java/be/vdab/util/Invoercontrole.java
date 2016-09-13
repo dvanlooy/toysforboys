@@ -3,7 +3,7 @@ package be.vdab.util;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public final class Invoercontrole {
+public final class Invoercontrole{
 
 	/**
 	 * checks if given long is positive
