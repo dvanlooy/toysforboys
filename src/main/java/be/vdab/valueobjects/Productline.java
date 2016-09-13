@@ -45,11 +45,11 @@ public class Productline implements Serializable {
 		return description;
 	}
 
-	public void setName(String name) throws IllegalArgumentException {
+	private void setName(String name) throws IllegalArgumentException {
 		this.name = Invoercontrole.noEmptyOrNullString(name, "productline name cannot be empty or null");
 	}
 
-	public void setDescription(String description) {
+	private void setDescription(String description) {
 		this.description = description; // geen invoercontrole: vrij veld
 	}
 
