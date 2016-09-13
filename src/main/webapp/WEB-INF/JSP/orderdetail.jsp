@@ -4,6 +4,7 @@
 <%@ taglib prefix="v" uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
+<v:head title='Orderdetail ${order.id}' />
 <v:header />
 <c:if test="${not empty fout}">
 	<div class="page-header">

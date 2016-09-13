@@ -3,6 +3,8 @@ package be.vdab.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import be.vdab.exceptions.UnshippedException;
 import be.vdab.util.Invoercontrole;
@@ -35,6 +38,9 @@ public class Product implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productlineId")
 	private Productline productline;
+	
+	@Transient
+	private final static Logger logger = Logger.getLogger(Product.class.getName());
 
 	// FUNCTIONAL METHODS
 
@@ -54,6 +60,7 @@ public class Product implements Serializable {
 				setQuantityInOrder(quantityInOrder - quantityOrdered);
 			} else {
 				// Corrupted data in database, do something...
+				logger.log(Level.WARNING, "Corrupted quantityInOrder for " + this.getName());
 			}
 		} else {
 			throw new UnshippedException("Shipping failed for " + this.toString());

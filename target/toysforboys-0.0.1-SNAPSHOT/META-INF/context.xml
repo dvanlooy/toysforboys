@@ -2,5 +2,5 @@
 <Context path='/toysforboys'>
 	<Resource name='jdbc/toysforboys' type='javax.sql.DataSource'
 		username='cursist' password='cursist' driverClassName='com.mysql.jdbc.Driver'
-		url='jdbc:mysql://localhost/toysforboys?useSSL=false' closeMethod='close' />
+		url='jdbc:mysql://localhost/forboys?useSSL=false' closeMethod='close' />
 </Context>
