@@ -40,7 +40,7 @@ public class Country implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) throws IllegalArgumentException {
+	private void setName(String name) throws IllegalArgumentException {
 		this.name = Invoercontrole.noEmptyOrNullString(name, "country name cannot be empty or null");
 	}
 

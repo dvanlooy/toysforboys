@@ -57,24 +57,24 @@ public class Adres implements Serializable {
 		return country;
 	}
 
-	public void setStreetAndNumber(String streetAndNumber) throws IllegalArgumentException {
+	private void setStreetAndNumber(String streetAndNumber) throws IllegalArgumentException {
 		this.streetAndNumber = Invoercontrole.noEmptyOrNullString(streetAndNumber,
 				"streetAndNumber cannot be empty or null");
 	}
 
-	public void setCity(String city) throws IllegalArgumentException {
+	private void setCity(String city) throws IllegalArgumentException {
 		this.city = Invoercontrole.noEmptyOrNullString(city, "city cannot be empty or null");
 	}
 
-	public void setState(String state) throws IllegalArgumentException {
+	private void setState(String state) throws IllegalArgumentException {
 		this.state = Invoercontrole.noEmptyOrNullString(state, "state cannot be empty or null");
 	}
 
-	public void setPostalCode(String postalCode) throws IllegalArgumentException {
+	private void setPostalCode(String postalCode) throws IllegalArgumentException {
 		this.postalCode = Invoercontrole.noEmptyOrNullString(postalCode, "postalCode cannot be empty or null");
 	}
 
-	public void setCountry(Country country) throws NullPointerException {
+	private void setCountry(Country country) throws NullPointerException {
 		this.country = Objects.requireNonNull(country, "country cannot be null");
 	}
 
