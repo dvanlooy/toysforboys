@@ -1,5 +1,6 @@
 <%@ page contentType='text/html' pageEncoding='UTF-8' session='false'%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="v" uri='http://vdab.be/tags'%>
 <!doctype html>
@@ -21,10 +22,10 @@
 	</div>
 	<dl>
 		<dt>Ordered:</dt>
-		<dd>${order.orderDate}</dd>
+		<dd><fmt:formatDate value='${order.orderDate}' type='date' dateStyle='short' /></dd>
 		<br>
 		<dt>Required:</dt>
-		<dd>${order.requiredDate}</dd>
+		<dd><fmt:formatDate value='${order.requiredDate}' type='date' dateStyle='short' /></dd>
 		<br>
 		<dt>Customer:</dt>
 		<dd>${order.customer.name}<br>
@@ -49,9 +50,9 @@
 				<c:forEach items='${order.orderdetails}' var='orderdetail'>
 					<tr>
 						<td>${orderdetail.product.name}</td>
-						<td class="col-md-2">${orderdetail.priceEach}</td>
-						<td class="col-md-2">${orderdetail.quantityOrdered}</td>
-						<td class="col-md-2">${orderdetail.totalValue}</td>
+						<td class="col-md-2"><fmt:formatNumber value='${orderdetail.priceEach}'/></td>
+						<td class="col-md-2"><fmt:formatNumber value='${orderdetail.quantityOrdered}'/></td>
+						<td class="col-md-2"><fmt:formatNumber value='${orderdetail.totalValue}'/></td>
 						<td class="text-center col-md-1"><c:choose>
 								<c:when
 									test="${orderdetail.quantityOrdered <= orderdetail.product.quantityInStock}">
@@ -67,7 +68,7 @@
 					<th>Total Amount:</th>
 					<th class="col-md-2"></th>
 					<th class="col-md-2"></th>
-					<th class="col-md-2 ">${order.totalValue}</th>
+					<th class="col-md-2 "><fmt:formatNumber value='${order.totalValue}'/></th>
 					<th class="text-center col-md-1"></th>
 				</tr>
 			</table>

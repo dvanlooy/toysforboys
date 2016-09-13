@@ -1,6 +1,7 @@
 <%@ page contentType='text/html' pageEncoding='UTF-8'%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@ taglib prefix="v" uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
@@ -13,10 +14,13 @@
 				<h2>Shipping success</h2>
 			</div>
 			<div class="panel-body">
-				<p>Shipping completed for ${fn:length(shippedOrdersIds) > 1 ? "orders " : "order"}<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
-					varStatus="status">
+				<p>
+					Shipping completed for ${fn:length(shippedOrdersIds) > 1 ? "orders " : "order"}
+					<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
+						varStatus="status">
 					${shippedOrdersId}${status.last ? "." : ", "}
-			</c:forEach></p>
+			</c:forEach>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -47,8 +51,10 @@
 					<tr>
 						<td class="col-md-1 text-center"><a class="btn btn-danger"
 							href="<c:out value='${orderDetailURL}'/>" role="button">${noStockUnshippedOrder.id}</a></td>
-						<td class="col-md-1">${noStockUnshippedOrder.orderDate}</td>
-						<td class="col-md-1">${noStockUnshippedOrder.requiredDate}</td>
+						<td class="col-md-1"><fmt:formatDate
+								value='${noStockUnshippedOrder.orderDate}' type='date' dateStyle='short' /></td>
+						<td class="col-md-1"><fmt:formatDate
+								value='${noStockUnshippedOrder.requiredDate}' type='date' dateStyle='short' /></td>
 						<td class="col-md-2">${noStockUnshippedOrder.customer.name}</td>
 						<td>${noStockUnshippedOrder.comments}</td>
 						<td class="col-md-2"><img
@@ -84,8 +90,10 @@
 				<tr>
 					<td class="col-md-1 text-center"><a class="btn btn-info"
 						href="<c:out value='${orderDetailURL}'/>" role="button">${unshippedorder.id}</a></td>
-					<td class="col-md-1">${unshippedorder.orderDate}</td>
-					<td class="col-md-1">${unshippedorder.requiredDate}</td>
+					<td class="col-md-1"><fmt:formatDate
+							value='${unshippedorder.orderDate}' type='date' dateStyle='short' /></td>
+					<td class="col-md-1"><fmt:formatDate
+							value='${unshippedorder.requiredDate}' type='date' dateStyle='short' /></td>
 					<td class="col-md-2">${unshippedorder.customer.name}</td>
 					<td>${unshippedorder.comments}</td>
 					<td class="col-md-2"><img
@@ -116,15 +124,16 @@
 		</c:if>
 	</ul>
 </c:if>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.js"></script>
-<script type='text/javascript'>//<![CDATA[
-$(function(){
-var checkboxes = $("input[type='checkbox']"),
-    submitButt = $("input[type='submit']");
-checkboxes.click(function() {
-    submitButt.attr("disabled", !checkboxes.is(":checked"));
-});
-});//]]> 
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.6.2.js"></script>
+<script type='text/javascript'>
+	//<![CDATA[
+	$(function() {
+		var checkboxes = $("input[type='checkbox']"), submitButt = $("input[type='submit']");
+		checkboxes.click(function() {
+			submitButt.attr("disabled", !checkboxes.is(":checked"));
+		});
+	});//]]>
 </script>
 <script>
 	document.getElementById('setAsShippedForm').onsubmit = function() {
