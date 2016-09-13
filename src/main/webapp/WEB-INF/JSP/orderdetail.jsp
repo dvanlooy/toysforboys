@@ -5,6 +5,15 @@
 <!doctype html>
 <html lang='nl'>
 <v:header />
+<c:if test="${not empty fout}">
+	<div class="page-header">
+		<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only"><strong>Error:</strong></span>
+			<strong>WARNING!</strong> ${fout}.
+		</div>
+	</div>
+</c:if>
 <c:if test="${not empty order}">
 	<div class="page-header">
 		<h1>Order ${order.id}</h1>

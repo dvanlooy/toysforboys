@@ -5,6 +5,21 @@
 <!doctype html>
 <html lang='nl'>
 <v:header />
+<c:if test="${not empty shippedOrdersIds }">
+	<div class="page-header">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h2>Shipping success</h2>
+			</div>
+			<div class="panel-body">
+				<p>Shipping completed for ${fn:length(shippedOrdersIds) > 1 ? "orders " : "order"}<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
+					varStatus="status">
+					${shippedOrdersId}${status.last ? "." : ", "}
+			</c:forEach></p>
+			</div>
+		</div>
+	</div>
+</c:if>
 <c:if test="${not empty noStockUnshippedOrders }">
 	<div class="page-header">
 		<div class="panel panel-danger">
@@ -45,24 +60,10 @@
 		</div>
 	</div>
 </c:if>
-<c:if test="${not empty shippedOrdersIds }">
-	<div class="panel panel-success">
-		<div class="panel-heading">
-			<h2 class="panel-title">Shipping success</h2>
-		</div>
-		<div class="panel-body">
-			Shipping completed for orders
-			<c:forEach items='${shippedOrdersIds}' var='shippedOrdersId'
-				varStatus="status">
-				${shippedOrdersId}${status.last ? "." : ", "}
-			</c:forEach>
-		</div>
-	</div>
-</c:if>
 <div class="page-header">
 	<h1>Unshipped orders</h1>
 </div>
- 
+
 <c:if test="${not empty unshippedorders}">
 	<form action="" method="post" id="setAsShippedForm">
 		<table class="table table-striped">

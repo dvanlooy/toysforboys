@@ -19,16 +19,19 @@ public class OrderDetailServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		// GET ORDER TO SHOW FROM PARAMETER
 		if (request.getParameter("id") != null) {
 			try {
 				long selectedOrder = Long.parseLong(request.getParameter("id"));
+				// READ ORDER FROM DATABASE
 				Order order = orderService.read(selectedOrder);
 				request.setAttribute("order", order);
 			} catch (NumberFormatException ex) {
-				request.setAttribute("fout", "Order id is niet correct");
+				request.setAttribute("fout", "Order id is not correct");
 			}
 		} else {
-			request.setAttribute("fout", "Geen order geselecteerd");
+			request.setAttribute("fout", "No order selected");
 		}
 		// GET ON WITH IT
 		request.getRequestDispatcher(VIEW).forward(request, response);
