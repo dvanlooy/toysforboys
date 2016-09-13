@@ -98,7 +98,7 @@
 			</c:forEach>
 		</table>
 		<input type="submit" value="Set as shipped"
-			class="btn btn-primary btn-block" id='submit'>
+			class="btn btn-primary btn-block" id='submit' disabled>
 	</form>
 	<ul class="pagination">
 		<c:if test='${vanafRij != 0}'>
@@ -116,6 +116,16 @@
 		</c:if>
 	</ul>
 </c:if>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.js"></script>
+<script type='text/javascript'>//<![CDATA[
+$(function(){
+var checkboxes = $("input[type='checkbox']"),
+    submitButt = $("input[type='submit']");
+checkboxes.click(function() {
+    submitButt.attr("disabled", !checkboxes.is(":checked"));
+});
+});//]]> 
+</script>
 <script>
 	document.getElementById('setAsShippedForm').onsubmit = function() {
 		document.getElementById('submit').disabled = true;
